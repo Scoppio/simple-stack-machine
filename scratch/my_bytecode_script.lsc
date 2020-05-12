@@ -1,9 +1,13 @@
+
 VAR 2
 VAR 7
 ADD
+
 VAR 9
 SUB
+
 JEQ X
+
 VAR 0
 VAR 0
 VAR 0

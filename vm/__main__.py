@@ -67,7 +67,7 @@ class StackMachine:
 
 
 if __name__ == "__main__":
-    with open("object_file.byc", 'rb') as f:
+    with open("../scratch/object_file.byc", 'rb') as f:
         byte_code = bytearray(f.read())
 
     StackMachine().run(byte_code)

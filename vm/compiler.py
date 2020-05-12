@@ -11,7 +11,15 @@ def compile_script(file_path):
     with open(file_path, 'r') as f:
         data = f.read().split("\n")
     print("first pass, cleaning file")
-    data = [a for a in filter(lambda x: x, data)]
+    _datum = []
+    for line in data:
+        if line:
+            if "#" in line:
+                if len(code := line.split("#")) == 2:
+                    _datum.append(code)
+            else:
+                _datum.append(line)
+    data = _datum
     markers = {}
     to_jump = {}
     pc = 0
@@ -38,11 +46,13 @@ def compile_script(file_path):
         if n in to_jump:
             bytecode[n-1] = markers[to_jump[n]]
 
+    output_file = file_path.replace(".lsc", ".byc")
+
     print("saving bytecode to file")
-    with open("object_file.byc", 'wb') as f:
+    with open(output_file, 'wb') as f:
         f.write(bytecode)
 
 
 if __name__ == "__main__":
-    compile_script("my_bytecode_script.lsc")
+    compile_script("../scratch/my_bytecode_script.lsc")
     print("compilation done")
