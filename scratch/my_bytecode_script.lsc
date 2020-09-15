@@ -1,22 +1,25 @@
+# INIT CODE
+VAR 2 # Add 2 to the stack
+VAR 7 # Add 3 to the stack
+ADD   # pop the top 2 values on stack, add them togheter and place the result on stack
 
-VAR 2
-VAR 7
-ADD
+VAR 9 # Place 9 to the stack
+SUB   # pop the top 2 values on stack, subtract the first value to be popped from the second value to be popped
+      # place the result on stack
 
-VAR 9
-SUB
+JEQ X # jump to X if equals to 0
 
-JEQ X
-
-VAR 0
-VAR 0
-VAR 0
+VAR 0 # Place 0 to the stack
+VAR 0 # Place 0 to the stack
+VAR 0 # Place 0 to the stack
 X:
-VAR 3
-VAR 1
-ADD
+VAR 3 # Place 3 to the stack
+VAR 1 # Place 1 to the stack
+ADD   # pop the top 2 values on stack, add them togheter and place the result on stack
 JEQ X
-VAR 1
-SUB
-API_1
-NOP
+VAR 1 # Place 9 to the stack
+SUB   # pop the top 2 values on stack, subtract the first value to be popped from the second value to be popped
+      # place the result on stack
+
+API_1 # Call API code 1
+NOP  # Do nothing
