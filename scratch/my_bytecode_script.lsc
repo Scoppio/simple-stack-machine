@@ -1,4 +1,3 @@
-# INIT CODE
 VAR 2 # Add 2 to the stack
 VAR 7 # Add 3 to the stack
 ADD   # pop the top 2 values on stack, add them togheter and place the result on stack

@@ -3,6 +3,9 @@ from vm import VM
 from typing import Dict
 
 
+FUNCTIONS = {b'print': print}
+
+
 def _nop(*args, **kwargs):
     ...
 
@@ -28,7 +31,7 @@ def _sub(sm: VM):
 
 
 def _var(sm: VM):
-    sm.push(sm.get_bytecode_at_address(address=sm.get_pc(), offset=1))
+    sm.push(get_next_byte(sm))
 
 
 def _and(sm: VM):
@@ -48,17 +51,30 @@ def _xor(sm: VM):
 
 def _jeq(sm: VM):
     if sm.peek() == 0:
-        sm.set_pc(sm.get_bytecode_at_address(address=sm.get_pc(), offset=1) - 2)
+        sm.set_pc(get_next_byte(sm) - 2)
 
 
 def _jnq(sm: VM):
     if sm.peek() != 0:
-        sm.set_pc(sm.get_bytecode_at_address(address=sm.get_pc(), offset=1) - 2)
+        sm.set_pc(get_next_byte(sm) - 2)
 
 
 def _api_1(sm: VM):
     print(sm.peek())
 
+
+def _api_call(sm: VM):
+    _b = get_next_byte(sm)
+    _args = get_next_byte(sm, 2)
+    args = [sm.pop() for _ in range(_args)]
+    fun = sm.get_data_at(_b)
+    f = FUNCTIONS[fun]
+    f(*args)
+    [sm.push(i) for i in args]
+
+
+def get_next_byte(sm: VM, offset: int = 1):
+    return sm.get_bytecode_at_address(address=sm.get_pc(), offset=offset)
 
 class Instruction(Enum):
     """
@@ -84,6 +100,7 @@ class Instruction(Enum):
     OR = (0x09, 1, _or)
     JEQ = (0x0A, 2, _jeq)
     JNQ = (0x0B, 2, _jnq)
+    API_CALL = (0x0C, 3, _api_call)
 
     def __eq__(self, other):
         return self.value[0] == other
